@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DB88F998-A428-42CB-92BD-882D3DCDF720}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Deep</RootNamespace>
+    <AssemblyName>Deep</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(ILPath)\BotBases\DeepDive\$(TargetFileName)</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>$(ILPath)\BotBases\DeepDive\$(TargetFileName)</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE;RB_64</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <!-- RB 64 & rb32 -->
+  <!-- Condition="'$(Configuration)|$(Platform)' == 'Release|x64' Or '$(Configuration)|$(Platform)' == 'Debug|x64'"-->
+  <ItemGroup>
+    <Reference Include="RebornBuddy, Version=1.0.201.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RebornBuddy.exe</HintPath>
+    </Reference>
+    <Reference Include="GreyMagic, Version=1.0.41.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GreyMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\Converter\EnumerateExtension.cs" />
+    <Compile Include="Forms\Converter\LocalizedDescriptionAttribute.cs" />
+    <Compile Include="Forms\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DeepDungeonManager.cs" />
+    <Compile Include="Helpers\FrameCache.cs" />
+    <Compile Include="Helpers\LocalPlayerExtension.cs" />
+    <Compile Include="Helpers\WPF.cs" />
+    <Compile Include="Memory\Attributes\OffsetAttribute.cs" />
+    <Compile Include="Memory\Attributes\OffsetValue.cs" />
+    <Compile Include="Memory\OffsetManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskManager\Actions\BaseLogicHandler.cs" />
+    <Compile Include="TaskManager\Actions\CarnOfReturn.cs" />
+    <Compile Include="TaskManager\Actions\CombatHandler.cs" />
+    <Compile Include="TaskManager\Actions\DeathWindowHandler.cs" />
+    <Compile Include="TaskManager\Actions\FloorExit.cs" />
+    <Compile Include="TaskManager\Actions\GetToCaptiain.cs" />
+    <Compile Include="TaskManager\Actions\LoadingHandler.cs" />
+    <Compile Include="TaskManager\Actions\LobbyHandler.cs" />
+    <Compile Include="TaskManager\Actions\Loot.cs" />
+    <Compile Include="TaskManager\Actions\Pomanders.cs" />
+    <Compile Include="TaskManager\Actions\POTDEntrance.cs" />
+    <Compile Include="TaskManager\Actions\POTDNavigation.cs" />
+    <Compile Include="TaskManager\Actions\SidestepTask.cs" />
+    <Compile Include="TaskManager\Actions\TrapHandler.cs" />
+    <Compile Include="TaskManager\TaskManagerProvider.cs" />
+    <Compile Include="Tasks\Common.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Enums\ItemState.cs" />
+    <Compile Include="Forms\Converter\EnumToStringConverter.cs" />
+    <Compile Include="Helpers\AsyncHelper.cs" />
+    <Compile Include="Memory\Offsets.cs" />
+    <Compile Include="Providers\DDTargetingProvider.cs" />
+    <Compile Include="Structure\MapLoader.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Enums\DeepDungeonItem.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\GameObjectExtensions.cs" />
+    <Compile Include="Helpers\Logging\PerformanceLogger.cs" />
+    <Compile Include="Helpers\Logging\LogColors.cs" />
+    <Compile Include="Helpers\Logging\Logger.cs" />
+    <Compile Include="Helpers\Logging\LoggerNameAttribute.cs" />
+    <Compile Include="DeepDungeon.cs" />
+    <Compile Include="Structure\DDInventoryItem.cs" />
+    <Compile Include="Structure\FloorSettings.cs" />
+    <Compile Include="Providers\DDNavigationProvider.cs" />
+    <Compile Include="Providers\DDCombatTargetingProvider.cs" />
+    <Compile Include="Enums\SaveSlot.cs" />
+    <Compile Include="Windows\DeepDungeonMenu.cs" />
+    <Compile Include="Windows\DeepDungeonSaveData.cs" />
+    <EmbeddedResource Include="Forms\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
+    <EmbeddedResource Include="Resources\Pots.json" />
+    <EmbeddedResource Include="Resources\Walls\1.json" />
+    <EmbeddedResource Include="Resources\Walls\2.json" />
+    <EmbeddedResource Include="Resources\Walls\3.json" />
+    <EmbeddedResource Include="Resources\Walls\4.json" />
+    <EmbeddedResource Include="Resources\Walls\5.json" />
+    <EmbeddedResource Include="Resources\Walls\6.json" />
+    <EmbeddedResource Include="Resources\Walls\7.json" />
+    <EmbeddedResource Include="Resources\Walls\8.json" />
+    <EmbeddedResource Include="Resources\Walls\9.json" />
+    <Content Include="Profiles\PotD_Unlock.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Profiles\Trimmed_sacks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

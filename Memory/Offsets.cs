@@ -1,0 +1,38 @@
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows.Controls;
+using Deep.Memory.Attributes;
+using ff14bot;
+using ff14bot.Behavior;
+using ff14bot.Enums;
+using ff14bot.Managers;
+
+namespace Deep.Memory
+{
+
+#pragma warning disable CS0649
+    internal static class Offsets
+    {
+        [Offset("Search 0F B6 81 ? ? ? ? 44 0F B6 CA Add 3 Read32")] //0x187A```````
+        internal static int DDMapGroup;
+
+        [Offset("Search 48 8D 91 ? ? ? ? 48 C7 84 24 ? ? ? ? ? ? ? ? Add 3 Read32")] //0x11c0
+        internal static int Map5xStart;
+
+        [Offset("Search 4C 69 C0 ? ? ? ? 48 8D 91 ? ? ? ? Add 3 Read32" )] //0x338
+        internal static int Map5xSize;
+
+        [Offset("Search 0F B7 82 ? ? ? ? 2B C8 48 8D 0C 89 Add 3 Read32" )] // 0x332
+        internal static int WallStartingPoint;
+
+        [Offset("Search 49 8D BE ? ? ? ? 0F 1F 44 00 ? 8B 17 Add 3 Read32")] //0x140
+        internal static int Starting;
+
+        [Offset("Search 41 8B 96 ? ? ? ? 84 C9 Add 3 Read32")]//0x13c
+        internal static int UNK_StartingCircle;
+
+        [Offset("Search 42 0F B6 8C 28 ? ? ? ? 84 0E Add 5 Read32")]//0x1860
+        internal static int WallGroupEnabled;
+    }
+#pragma warning restore CS0649
+}

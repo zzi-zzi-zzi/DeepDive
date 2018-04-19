@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+######################################
+# Profile: Palace of the Dead Unlock #
+######################################
+# Authors: zzi					             #
+######################################
+# Version: 1.0                       #
+######################################
+# Required Level: 17+                #
+######################################
+# Required Setup:                    #
+#  Complete Into a Copper Hell       #
+######################################
+# Required User Interaction:         #
+#  None                              #
+######################################
+-->
+<Profile>
+	<Name>Palace of the Dead Unlock</Name>
+	<KillRadius>90</KillRadius>
+	<Order>
+
+		<While Condition="not IsQuestCompleted(66196)">
+			<LogMessage Message="You must complete Into a Copper Hell before running this profile."/>
+		</While>
+
+		<!-- The House That Death Built -->
+
+		<If Condition="not IsQuestCompleted(67092)">
+			<If Condition="not HasQuest(67092)">
+				<If Condition="not IsOnMap(132)">
+					<GetTo ZoneId="132" XYZ="42.55737, -7.705872, 97.24573" />
+				</If>
+				<MoveTo Name="Nojiro Marujiro" XYZ="42.55737, -7.705872, 97.24573" />
+				<If Condition="IsQuestAcceptQualified(67092)">
+					<PickupQuest NpcId="1000389" QuestId="67092" />
+				</If>
+			</If>
+			<If Condition="HasQuest(67092)">
+				<If Condition="GetQuestStep(67092) == 1">
+					<If Condition="not IsOnMap(153)">
+						<GetTo ZoneId="153" XYZ="-199.0234, 6.873556, 30.5332" />
+					</If>
+					<NoCombatMoveTo Name="Wood Wailer Expeditionary" XYZ="-199.0234, 6.873556, 30.5332" />
+					<TalkTo InteractDistance="3.0" QuestId="67092" StepId="1" NpcId="1017255" XYZ="-199.0234, 6.873556, 30.5332" />
+				</If>
+				<If Condition="GetQuestStep(67092) == 255">
+					<If Condition="not IsOnMap(153)">
+						<GetTo ZoneId="153" XYZ="187.5486, 7.238432, -39.26154" />
+					</If>
+					<NoCombatMoveTo name="Turn in PotD" XYZ="187.5486, 7.238432, -39.26154" />
+					<TurnIn InteractDistance="3.0" QuestId="67092" StepId="255" NpcId="1017323" XYZ="187.5486, 7.238432, -39.26154" />
+				</If>
+			</If>
+		</If>
+
+	</Order>
+</Profile>

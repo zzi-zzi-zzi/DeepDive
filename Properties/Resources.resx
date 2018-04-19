@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="UI_SettingsTitle" xml:space="preserve">
+    <value>Deep Dungeon Settings (V: {0})</value>
+  </data>
+  <data name="UI_StartAT51" xml:space="preserve">
+    <value>Start at floor 51</value>
+  </data>
+  <data name="UI_ChangeCR" xml:space="preserve">
+    <value>Change Combat Routine</value>
+  </data>
+  <data name="UI_EnableVerboseLogging" xml:space="preserve">
+    <value>Enable Verbose Logging</value>
+  </data>
+  <data name="UI_FloorSettingRow" xml:space="preserve">
+    <value>Level {0} - {1}</value>
+  </data>
+  <data name="UI_GoForTheHoard" xml:space="preserve">
+    <value>Always try to pick up 'Cache of the Horde' when prioritizing the exit</value>
+  </data>
+  <data name="UI_IAmInAParty" xml:space="preserve">
+    <value>I am in a party! I Expect this person to start the dungeon:</value>
+  </data>
+  <data name="UI_KeyBox" xml:space="preserve">
+    <value>Deep Dive Key:</value>
+  </data>
+  <data name="UI_Mimics" xml:space="preserve">
+    <value>Open Mimic Chests</value>
+  </data>
+  <data name="UI_OpenAllChests" xml:space="preserve">
+    <value>Prioritize the Exit</value>
+  </data>
+  <data name="UI_PartyLeaderMe" xml:space="preserve">
+    <value>&lt;- That's me</value>
+  </data>
+  <data name="UI_PartyLeaderNotMe" xml:space="preserve">
+    <value>&lt;- That's Not Me</value>
+  </data>
+  <data name="UI_RefreshParty" xml:space="preserve">
+    <value>Refresh Party Information</value>
+  </data>
+  <data name="UI_SavePomSteel" xml:space="preserve">
+    <value>Save Pomander of Steel for Boss</value>
+  </data>
+  <data name="UI_SavePomStr" xml:space="preserve">
+    <value>Save Pomander of Strength for Boss</value>
+  </data>
+  <data name="UI_Silver" xml:space="preserve">
+    <value>Open Silver Chests</value>
+  </data>
+  <data name="UI_STOP" xml:space="preserve">
+    <value>Stop after current run</value>
+  </data>
+  <data name="UI_StopCheckBox" xml:space="preserve">
+    <value>Stop after this floors Aether value has been reached.</value>
+  </data>
+  <data name="UI_TabChests" xml:space="preserve">
+    <value>Chest Settings</value>
+  </data>
+  <data name="UI_TabFloor" xml:space="preserve">
+    <value>Level Settings</value>
+  </data>
+  <data name="UI_TabGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="UI_TabKey" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="UI_Traps" xml:space="preserve">
+    <value>Open Trap Chests</value>
+  </data>
+  <data name="UI_UseSaveSlot" xml:space="preserve">
+    <value>Use Save Slot:</value>
+  </data>
+  <data name="UI_Aether" xml:space="preserve">
+    <value>Aether: </value>
+  </data>
+  <data name="UI_Combat" xml:space="preserve">
+    <value>Combat</value>
+  </data>
+  <data name="UI_ErrorReport" xml:space="preserve">
+    <value>Error Report</value>
+  </data>
+  <data name="UI_IssueTitle" xml:space="preserve">
+    <value>Issue Title</value>
+  </data>
+  <data name="UI_IssueBody" xml:space="preserve">
+    <value>Please Describe your issue</value>
+  </data>
+  <data name="UI_IssueSubmit" xml:space="preserve">
+    <value>Create Issue</value>
+  </data>
+  <data name="UI_View_Issues" xml:space="preserve">
+    <value>View Issues</value>
+  </data>
+  <data name="UI_ContactInfo" xml:space="preserve">
+    <value>ContactName</value>
+  </data>
+  <data name="UI_IssueCreated" xml:space="preserve">
+    <value>Issue Created Your issue id is in the log. Please use that when you ask for help in discord</value>
+  </data>
+  <data name="UI_IssueTitleEmpty" xml:space="preserve">
+    <value>Issue Title cannot be empty</value>
+  </data>
+  <data name="UI_STOPBOT" xml:space="preserve">
+    <value>Please stop the bot before creating an error report. </value>
+  </data>
+  <data name="UI_PrivateIssue" xml:space="preserve">
+    <value>Create a Private Issue</value>
+  </data>
+  <data name="UI_MeleeRetreat" xml:space="preserve">
+    <value>Melee Retreat</value>
+  </data>
+  <data name="UI_CombatReach" xml:space="preserve">
+    <value>Bot will start combat with mobs within {0:##}y</value>
+  </data>
+  <data name="UI_UseAntidote" xml:space="preserve">
+    <value>Use Antidote (when Available)</value>
+  </data>
+  <data name="UI_UseEchoDrops" xml:space="preserve">
+    <value>Use Echo Drops (when Available)</value>
+  </data>
+  <data name="UI_UsePomAlteration" xml:space="preserve">
+    <value>Use Pomander Of Alteration</value>
+  </data>
+  <data name="UI_UsePomRage" xml:space="preserve">
+    <value>Use Pomander of Rage</value>
+  </data>
+  <data name="BitFieldsNotSupported" xml:space="preserve">
+    <value>Bit fields are not supported.</value>
+  </data>
+  <data name="EnumTypeNotSet" xml:space="preserve">
+    <value>The EnumType property is not specified.</value>
+  </data>
+  <data name="EnumValueNotFound" xml:space="preserve">
+    <value>Requested value '{0}' was not found.</value>
+  </data>
+  <data name="TargetNotExtendingType" xml:space="preserve">
+    <value>Target type must extend '{0}'.</value>
+  </data>
+  <data name="TypeHasNoStandardValues" xml:space="preserve">
+    <value>The type '{0}' has no standard values.</value>
+  </data>
+  <data name="ValueNotOfType" xml:space="preserve">
+    <value>Value must be of type '{0}'.</value>
+  </data>
+  <data name="UI_SaveSlot_1" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="UI_SaveSlot_2" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="UI_HPPOT" xml:space="preserve">
+    <value>Use HP Pot at {0}%</value>
+  </data>
+  <data name="UI_UseSustain" xml:space="preserve">
+    <value>Use Sustain Pot</value>
+  </data>
+  <data name="UI_Floor" xml:space="preserve">
+    <value>Floor</value>
+  </data>
+  <data name="UI_RunAnyFloor" xml:space="preserve">
+    <value>I want to do more than floor 10 solo.
+I know the bot will fail.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="pots" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\pots.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\1.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\2.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\3.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\4.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\5.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\6.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\7.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\8.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\walls\9.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+</root>
