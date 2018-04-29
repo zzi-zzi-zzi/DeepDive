@@ -1,3 +1,12 @@
+/*
+DeepDungeon is licensed under a
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+You should have received a copy of the license along with this
+work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
+
+Orginal work done by zzi, contibutions by Omninewb, Freiheit, and mastahg
+                                                                                 */
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,11 +42,11 @@ namespace Deep
 
     public partial class DeepDungeon : BotBase
     {
-        public override string EnglishName => "DeepDive";
+        public override string EnglishName => "Deep Dungeon";
 #if RB_CN
         public override string Name => "深层迷宫";
 #else
-        public override string Name => "DeepDive";
+        public override string Name => "Deep Dungeon";
 #endif
         public override PulseFlags PulseFlags => PulseFlags.All;
         public override bool IsAutonomous => true;
