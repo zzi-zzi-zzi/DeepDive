@@ -50,9 +50,9 @@ namespace Deep.TaskManager.Actions
                 return true;
 
             }
-            if (GameObjectManager.GetObjectByNPCId(Constants.CaptainNpcId) == null || GameObjectManager.GetObjectByNPCId(Constants.CaptainNpcId).Distance2D(Core.Me.Location) > 6f)
+            if (GameObjectManager.GetObjectByNPCId(Constants.CaptainNpcId) == null || GameObjectManager.GetObjectByNPCId(Constants.CaptainNpcId).Distance2D(Core.Me.Location) > 4f)
             {
-                return await CommonTasks.MoveAndStop(new MoveToParameters(Constants.CaptainNpcPosition, "Moving toward NPC"), 6f, true);
+                return await CommonTasks.MoveAndStop(new MoveToParameters(Constants.CaptainNpcPosition, "Moving toward NPC"), 4f, true);
             }
             return false;
         }
