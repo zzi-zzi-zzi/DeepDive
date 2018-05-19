@@ -181,9 +181,12 @@ namespace Deep
             _tasks.Add(new CarnOfReturn());
             _tasks.Add(new FloorExit());
             _tasks.Add(new Loot());
+
+
+            _tasks.Add(new StuckDetection());
+            _tasks.Add(new POTDNavigation());
             
 
-            _tasks.Add(new POTDNavigation());
             _tasks.Add(new BaseLogicHandler());
 
             Settings.Instance.Stop = false;

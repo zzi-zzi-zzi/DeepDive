@@ -143,6 +143,12 @@ namespace Deep.TaskManager.Actions
             //pull not in combat
             if (!Core.Me.HasAura(Auras.Lust) && !Core.Me.HasAura(Auras.Rage) && !Core.Me.InRealCombat())
             {
+                if(target.Location.Distance2D(Core.Me.Location) > RoutineManager.Current.PullRange)
+                {
+                    TreeRoot.StatusText = $"Moving to kill target";
+                    await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0), true);
+                    return true;
+                }
                 await Pull();
                 return true;
             }
