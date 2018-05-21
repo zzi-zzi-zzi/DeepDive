@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Deep.TaskManager
+namespace Deep.TaskManager.Actions
 {
     class StuckDetection : ITask
     {

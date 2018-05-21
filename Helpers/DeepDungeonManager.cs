@@ -10,6 +10,7 @@ Orginal work done by zzi, contibutions by Omninewb, Freiheit, and mastahg
 using ff14bot;
 using ff14bot.Directors;
 using ff14bot.Managers;
+using ff14bot.Navigation;
 using ff14bot.RemoteAgents;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace Deep.Helpers
         public static void UsePomander(Pomander pom)
         {
             AgentModule.GetAgentInterfaceByType<AgentDeepDungeonInformation>().UsePomander(pom);
+            Navigator.NavigationProvider.ClearStuckInfo(); // don't trigger antistuck
         }
 
         public static int PortalStatus => Director.DeepDungeonPortalStatus;
