@@ -32,6 +32,7 @@ namespace Deep.TaskManager.Actions
             {
                 Logger.Warn("No activity was detected for {0} seconds. Clearing POI and trying again.", MoveTimer.WaitTime.TotalSeconds);
                 Poi.Clear("No activity detected");
+                MoveTimer.Reset();
                 return true;
             }
             else if (MoveTimer.IsFinished)
@@ -39,6 +40,7 @@ namespace Deep.TaskManager.Actions
                 Logger.Warn("No activity was detected for {0} seconds. Clearing Navigator?", MoveTimer.WaitTime.TotalSeconds);
                 await CommonTasks.StopMoving();
                 Navigator.Clear();
+                MoveTimer.Reset();
                 return true;
             }
 
