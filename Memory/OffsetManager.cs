@@ -36,7 +36,7 @@ namespace Deep.Memory
                         foreach (var field in type.FieldType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
                         {
                             var res = ParseField(field, pf);
-                            if(field.FieldType == typeof(IntPtr))
+                            if (field.FieldType == typeof(IntPtr))
                                 field.SetValue(instance, res);
                             else
                                 field.SetValue(instance, (int)res);
@@ -66,8 +66,8 @@ namespace Deep.Memory
                 .FirstOrDefault();
             var valna = (OffsetValueNA)Attribute.GetCustomAttributes(field, typeof(OffsetValueNA))
                 .FirstOrDefault();
-            
-            IntPtr results;
+
+            IntPtr result = IntPtr.Zero;
 
             if (Constants.Lang == Language.Chn)
             {
@@ -77,10 +77,12 @@ namespace Deep.Memory
                 {
                     return IntPtr.Zero;
                 }
-                lock (Core.Memory)
-                {
-                    results = pf.Find(offset.PatternCN);
-                }
+
+                bool b1 = false;
+                var results = pf.FindMany(offset.PatternCN, ref b1);
+                if (results != null)
+                    result = results[0];
+
             }
             else
             {
@@ -90,18 +92,21 @@ namespace Deep.Memory
                 {
                     return IntPtr.Zero;
                 }
-                lock (Core.Memory)
-                {
-                    results = pf.Find(offset.Pattern);
-                }
-            }
-            
-            Logger.Info("[OffsetManager][{0:,27}] {1}", field.Name, results.ToString("X"));
 
-            return results;
+                bool b1 = false;
+                var results = pf.FindMany(offset.Pattern, ref b1);
+                if (results != null)
+                    result = results[0];
+
+
+            }
+
+            Logger.Info("[OffsetManager][{0:,27}] {1}", field.Name, result.ToString("X"));
+
+            return result;
 
 
         }
-        
+
     }
 }
