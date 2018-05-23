@@ -68,6 +68,8 @@ namespace Deep.TaskManager.Actions
             }
         }
 
+        private static bool IsCrossRealm => PartyManager.CrossRealm;
+
         public async Task<bool> Run()
         {
             if (WorldManager.ZoneId != Constants.SouthShroudZoneId) return false;
@@ -255,25 +257,31 @@ Aetherpool Armor: +{1}
         private async Task MainMenu()
         {
             TreeRoot.StatusText = "Running Main Menu";
-            if (PartyManager.IsInParty)
+            if (PartyManager.IsInParty && PartyManager.IsPartyLeader)
             {
-                Logger.Warn("I am in a party. I am waiting for everyone to join the zone.");
-                await Coroutine.Wait(TimeSpan.FromMinutes(30), PartyLeaderWaitConditions);
-                if (DeepDungeon.StopPlz)
-                    return;
-                if (PartyManager.IsPartyLeader)
+                if (!IsCrossRealm())
                 {
-                    Logger.Warn("Everyone is now in the zone");
-                    for (var i = 0; i < 6; i++)
-                    {
-                        Logger.Warn("Giving them {0} seconds to do what they need to at the NPC", 60 - i * 10);
-                        await Coroutine.Sleep(TimeSpan.FromSeconds(10));
-                        if (DeepDungeon.StopPlz)
-                            return;
-                    }
+                    Logger.Warn("I am a Party Leader, waiting for everyone to join the zone.");
+                    await Coroutine.Wait(TimeSpan.FromMinutes(30), PartyLeaderWaitConditions);
+                }
+                else
+                {
+                    Logger.Warn("I am a Party Leader in a XRealm Party. I assume everyone is in the zone.");
                 }
 
+                if (DeepDungeon.StopPlz)
+                    return;
+
+                Logger.Warn("Everyone is now in the zone");
+                for (var i = 0; i < 6; i++)
+                {
+                    Logger.Warn("Giving them {0} seconds to do what they need to at the NPC", 60 - i * 10);
+                    await Coroutine.Sleep(TimeSpan.FromSeconds(10));
+                    if (DeepDungeon.StopPlz)
+                        return;
+                }
             }
+
             //read the current level state
             await ReadStartingLevel();
 
