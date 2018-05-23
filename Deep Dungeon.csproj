@@ -108,6 +108,7 @@
     <Compile Include="Helpers\FrameCache.cs" />
     <Compile Include="Helpers\LocalPlayerExtension.cs" />
     <Compile Include="Helpers\WPF.cs" />
+    <Compile Include="loader.cs" />
     <Compile Include="Memory\Attributes\OffsetAttribute.cs" />
     <Compile Include="Memory\Attributes\OffsetValue.cs" />
     <Compile Include="Memory\OffsetManager.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="TaskManager\Actions\POTDEntrance.cs" />
     <Compile Include="TaskManager\Actions\POTDNavigation.cs" />
     <Compile Include="TaskManager\Actions\SidestepTask.cs" />
+    <Compile Include="TaskManager\Actions\StuckDetection.cs" />
     <Compile Include="TaskManager\Actions\TrapHandler.cs" />
     <Compile Include="TaskManager\TaskManagerProvider.cs" />
     <Compile Include="Tasks\Common.cs" />
