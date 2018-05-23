@@ -259,7 +259,7 @@ Aetherpool Armor: +{1}
             TreeRoot.StatusText = "Running Main Menu";
             if (PartyManager.IsInParty && PartyManager.IsPartyLeader)
             {
-                if (!IsCrossRealm())
+                if (!IsCrossRealm)
                 {
                     Logger.Warn("I am a Party Leader, waiting for everyone to join the zone.");
                     await Coroutine.Wait(TimeSpan.FromMinutes(30), PartyLeaderWaitConditions);
