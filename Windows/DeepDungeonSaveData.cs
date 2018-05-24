@@ -21,6 +21,7 @@ using ff14bot.Managers;
 using Deep.Helpers;
 using ff14bot;
 using ff14bot.RemoteAgents;
+using ff14bot.RemoteWindows;
 
 namespace Deep.Windows
 {
@@ -79,10 +80,10 @@ namespace Deep.Windows
             await Coroutine.Wait(5000,() => IsOpen);
             var window = RaptureAtkUnitManager.GetWindowByName(WindowNames.DDsave);
             window.SendAction(2, 3, number, 3, 2);
-            await Coroutine.Wait(500, () => RaptureAtkUnitManager.GetWindowByName("SelectYesnoCount") != null);
+            await Coroutine.Wait(500, () => SelectYesno.IsOpen);
             //confirm that we want to delete this data.
-            if (RaptureAtkUnitManager.GetWindowByName("SelectYesnoCount") != null)
-                RaptureAtkUnitManager.GetWindowByName("SelectYesnoCount").SendAction(1, 3, 0);
+            if (SelectYesno.IsOpen)
+                SelectYesno.ClickYes();
         }
 
 
