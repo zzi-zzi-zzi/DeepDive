@@ -40,7 +40,7 @@ namespace Deep.Windows
         {
             if(number >= 2)
                 throw new ArgumentOutOfRangeException();
-            Logger.Verbose("SD: {0}", SD.Reset);
+            Logger.Verbose("Reset: {0}", SD.Reset);
 
             if (IsOpen && SD.Reset)
                 await Close();
@@ -67,7 +67,7 @@ namespace Deep.Windows
             if (number >= 2)
                 throw new ArgumentOutOfRangeException();
 
-            Logger.Verbose("SD: {0}", SD.Reset);
+            Logger.Verbose("Reset: {0}", SD.Reset);
 
             if (IsOpen && !SD.Reset)
                 await Close();
