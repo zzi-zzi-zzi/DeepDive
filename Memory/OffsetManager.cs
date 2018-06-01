@@ -78,7 +78,7 @@ namespace Deep.Memory
                     return IntPtr.Zero;
                 }
 
-                bool b1 = false;
+                bool b1 = true;
                 var results = pf.FindMany(offset.PatternCN, ref b1);
                 if (results != null)
                     result = results[0];
@@ -93,7 +93,7 @@ namespace Deep.Memory
                     return IntPtr.Zero;
                 }
 
-                bool b1 = false;
+                bool b1 = true;
                 var results = pf.FindMany(offset.Pattern, ref b1);
                 if (results != null)
                     result = results[0];
