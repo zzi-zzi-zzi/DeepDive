@@ -121,11 +121,10 @@ namespace Deep.TaskManager.Actions
 
             if (await PreCombatBuff())
                 return true;
-            
+
             //we are outside of targeting range, walk to the mob
             if(Core.Me.PrimaryTargetPtr == IntPtr.Zero || target.Location.Distance2D(Core.Me.Location) > 30)
             {
-                TreeRoot.StatusText = $"Moving to kill target";
                 await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0), true);
                 return true;
             }
@@ -143,16 +142,16 @@ namespace Deep.TaskManager.Actions
             //pull not in combat
             if (!Core.Me.HasAura(Auras.Lust) && !Core.Me.HasAura(Auras.Rage) && !Core.Me.InRealCombat())
             {
-                if(target.Location.Distance2D(Core.Me.Location) > RoutineManager.Current.PullRange)
-                {
-                    TreeRoot.StatusText = $"Moving to kill target";
-                    await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0), true);
-                    return true;
-                }
+                //if(target.Location.Distance2D(Core.Me.Location) > RoutineManager.Current.PullRange)
+                //{
+                //    TreeRoot.StatusText = $"Moving to kill target";
+                //    await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0), true);
+                //    return true;
+                //}
                 await Pull();
                 return true;
             }
-
+           
             //6334 - Final Sting
             if (
                 GameObjectManager.Attackers.Any(
