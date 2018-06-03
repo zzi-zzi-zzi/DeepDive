@@ -111,21 +111,27 @@ namespace Deep.TaskManager.Actions
             TreeRoot.StatusText = $"Combat: {target.BattleCharacter.Name}";
 
             //target if we are in range
-            if (target.BattleCharacter.Pointer != Core.Me.PrimaryTargetPtr && target.BattleCharacter.IsTargetable && target.Location.Distance2D(Core.Me.Location) < 30)
+            Logger.Info("======= OUT OF RANGE");
+            if (target.BattleCharacter.Pointer != Core.Me.PrimaryTargetPtr && target.BattleCharacter.IsTargetable && target.Location.Distance2D(Core.Me.Location) <= 30)
             {
                 Logger.Warn($"Combat target has changed");
                 target.BattleCharacter.Target();
                 return true;
             }
 
-
+            Logger.Info("======= PRE COMBAT");
             if (await PreCombatBuff())
                 return true;
 
+            Logger.Info("======= OUT OF RANGE2");
             //we are outside of targeting range, walk to the mob
-            if(Core.Me.PrimaryTargetPtr == IntPtr.Zero || target.Location.Distance2D(Core.Me.Location) > 30)
+            if (Core.Me.PrimaryTargetPtr == IntPtr.Zero || target.Location.Distance2D(Core.Me.Location) > 30)
             {
-                await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0), true);
+                var dist = Core.Player.CombatReach + RoutineManager.Current.PullRange + (target.Unit != null ? target.Unit.CombatReach : 0);
+                if (dist > 30)
+                    dist = 29;
+
+                await CommonTasks.MoveAndStop(new MoveToParameters(target.Location, target.Name), dist, true);
                 return true;
             }
 
@@ -139,6 +145,7 @@ namespace Deep.TaskManager.Actions
             if (await PreCombatLogic())
                 return true;
 
+            Logger.Info("======= PULL");
             //pull not in combat
             if (!Core.Me.HasAura(Auras.Lust) && !Core.Me.HasAura(Auras.Rage) && !Core.Me.InRealCombat())
             {
