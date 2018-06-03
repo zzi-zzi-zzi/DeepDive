@@ -290,8 +290,6 @@ Aetherpool Armor: +{1}
             {
                 Logger.Verbose("Resetting the floor");
                 await DeepDungeonSaveData.ClickReset(UseSaveSlot);
-
-                _saveStates = Sd.SaveStates;
             }
             if (_error)
                 lock (_errorLock)
@@ -300,17 +298,16 @@ Aetherpool Armor: +{1}
 
             if (!PartyManager.IsInParty || PartyManager.IsPartyLeader)
             {
-
                 await DeepDungeonSaveData.ClickSaveSlot(UseSaveSlot);
 
+                await Coroutine.Wait(2000, () => SelectString.IsOpen || ContentsFinderConfirm.IsOpen);
+                
                 // if we are using an "empty" save slot
-                if (!_saveStates[UseSaveSlot].Saved)
+                if (SelectString.IsOpen)
                 {
                     Logger.Verbose("Using Empty Save Slot");
                     Logger.Verbose("Going through the Talk dialogs...");
-                    // -- Fixed Party --
-                    await Coroutine.Sleep(1000);
-                    await Coroutine.Wait(1000, () => SelectString.IsOpen);
+
                     SelectString.ClickSlot(0);
 
                     await Coroutine.Sleep(500);
