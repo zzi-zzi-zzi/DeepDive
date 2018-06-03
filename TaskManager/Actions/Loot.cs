@@ -106,11 +106,9 @@ namespace Deep.TaskManager.Actions
                     break;
             }
 
-            Blacklist.Add(Target.Unit.ObjectId, TimeSpan.FromMinutes(5), $"Tried to Interact with the Target {tries} times");
-            Poi.Clear($"Tried to Interact with the Target {tries} times");
-            Navigator.Clear();
-
-            await Coroutine.Wait(250, () => SelectYesno.IsOpen);
+            
+            await Coroutine.Wait(500, () => SelectYesno.IsOpen);
+            
             //if this is an exit
             if (SelectYesno.IsOpen)
             {
@@ -119,6 +117,8 @@ namespace Deep.TaskManager.Actions
                     () => DeepDungeon.StopPlz || QuestLogManager.InCutscene || NowLoading.IsVisible);
                 return true;
             }
+            Blacklist.Add(Target.Unit.ObjectId, TimeSpan.FromMinutes(5), $"Tried to Interact with the Target {tries} times");
+            Poi.Clear($"Tried to Interact with the Target {tries} times");
 
             return false;
         }
