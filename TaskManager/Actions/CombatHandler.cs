@@ -111,7 +111,7 @@ namespace Deep.TaskManager.Actions
             TreeRoot.StatusText = $"Combat: {target.BattleCharacter.Name}";
 
             //target if we are in range
-            Logger.Info("======= OUT OF RANGE");
+            //Logger.Info("======= OUT OF RANGE");
             if (target.BattleCharacter.Pointer != Core.Me.PrimaryTargetPtr && target.BattleCharacter.IsTargetable && target.Location.Distance2D(Core.Me.Location) <= 30)
             {
                 Logger.Warn($"Combat target has changed");
@@ -119,11 +119,11 @@ namespace Deep.TaskManager.Actions
                 return true;
             }
 
-            Logger.Info("======= PRE COMBAT");
+            //Logger.Info("======= PRE COMBAT");
             if (await PreCombatBuff())
                 return true;
 
-            Logger.Info("======= OUT OF RANGE2");
+            //Logger.Info("======= OUT OF RANGE2");
             //we are outside of targeting range, walk to the mob
             if (Core.Me.PrimaryTargetPtr == IntPtr.Zero || target.Location.Distance2D(Core.Me.Location) > 30)
             {
@@ -145,7 +145,7 @@ namespace Deep.TaskManager.Actions
             if (await PreCombatLogic())
                 return true;
 
-            Logger.Info("======= PULL");
+            //Logger.Info("======= PULL");
             //pull not in combat
             if (!Core.Me.HasAura(Auras.Lust) && !Core.Me.HasAura(Auras.Rage) && !Core.Me.InRealCombat())
             {
