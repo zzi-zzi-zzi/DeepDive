@@ -64,6 +64,9 @@ namespace Deep.TaskManager.Actions
             if (!Constants.InDeepDungeon)
                 return false;
 
+            if (AvoidanceManager.IsRunningOutOfAvoid)
+                return true;
+
             if (!Core.Me.InRealCombat())
             {
                 if (await Rest())
