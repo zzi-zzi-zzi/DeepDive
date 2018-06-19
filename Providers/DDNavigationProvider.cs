@@ -335,4 +335,33 @@ namespace Deep.Providers
             }
         }
     }
+
+    internal static class StraightPathHelper
+    {
+        static StraightPathHelper()
+        {
+            Method = typeof(NavigationProvider).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(i => i.ReturnType == typeof(List<Vector3>));
+        }
+        private static MethodInfo Method;
+
+        /// <summary>
+        /// invoke the get straight path information.
+        /// </summary>
+        /// <returns></returns>
+        internal static List<Vector3> GetStraightPath()
+        {
+            if (Method == null)
+            {
+                Logger.Warn($"GSP is null?");
+                return null;
+            }
+
+            return RealStraightPath();
+        }
+
+        internal static List<Vector3> RealStraightPath()
+        {
+            return (List<Vector3>)Method.Invoke((Navigator.NavigationProvider as WrappingNavigationProvider).Original, new object[] { });
+        }
+    }
 }

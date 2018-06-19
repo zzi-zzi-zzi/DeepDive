@@ -10,6 +10,7 @@ Orginal work done by zzi, contibutions by Omninewb, Freiheit, and mastahg
 using Clio.Utilities;
 using Clio.Utilities.Helpers;
 using Deep.Logging;
+using Deep.Providers;
 using ff14bot;
 using ff14bot.Behavior;
 using ff14bot.Helpers;
@@ -30,6 +31,13 @@ namespace Deep.TaskManager.Actions
         {
             if (MoveTimer.IsFinished && (Poi.Current != null && Poi.Current.Type != PoiType.None))
             {
+                var path = StraightPathHelper.RealStraightPath();
+                Logger.Info($"Dump path:");
+                foreach(var x in path)
+                {
+                    Logger.Info(x.ToString());
+                }
+
                 Logger.Warn("No activity was detected for {0} seconds. Clearing POI and trying again.", MoveTimer.WaitTime.TotalSeconds);
                 Poi.Clear("No activity detected");
                 MoveTimer.Reset();
