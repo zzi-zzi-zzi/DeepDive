@@ -298,6 +298,8 @@ Aetherpool Armor: +{1}
 
             if (!PartyManager.IsInParty || PartyManager.IsPartyLeader)
             {
+                Logger.Verbose("Starting Save Slot Selection process");
+
                 await DeepDungeonSaveData.ClickSaveSlot(UseSaveSlot);
 
                 await Coroutine.Wait(2000, () => SelectString.IsOpen || ContentsFinderConfirm.IsOpen);
@@ -307,6 +309,8 @@ Aetherpool Armor: +{1}
                 {
                     Logger.Verbose("Using Empty Save Slot");
                     Logger.Verbose("Going through the Talk dialogs...");
+
+                    await Coroutine.Sleep(1000);
 
                     SelectString.ClickSlot(0);
 
@@ -354,6 +358,10 @@ Aetherpool Armor: +{1}
                         }
                     }
                     Logger.Verbose("Done with window interaction.");
+                }
+                else
+                {
+                    Logger.Verbose($"ContentsFinderConfirm is open: {ContentsFinderConfirm.IsOpen} so we aren't going through the main menu.");
                 }
                 _targetFloor = null;
             }

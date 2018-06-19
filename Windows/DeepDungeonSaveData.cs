@@ -40,7 +40,6 @@ namespace Deep.Windows
         {
             if(number >= 2)
                 throw new ArgumentOutOfRangeException();
-            Logger.Verbose("Reset: {0}", SD.Reset);
 
             if (IsOpen && SD.Reset)
                 await Close();
@@ -48,7 +47,7 @@ namespace Deep.Windows
             if (DeepDungeonMenu.IsOpen)
                 await DeepDungeonMenu.OpenSaveMenu();
 
-            Logger.Info("Clicking save slot {0}", number +1);
+            Logger.Info("Clicking Save slot {0} // {1}", number +1, SD.Reset);
 
 
             await Coroutine.Wait(5000, () => IsOpen);
@@ -67,8 +66,6 @@ namespace Deep.Windows
             if (number >= 2)
                 throw new ArgumentOutOfRangeException();
 
-            Logger.Verbose("Reset: {0}", SD.Reset);
-
             if (IsOpen && !SD.Reset)
                 await Close();
 
@@ -76,7 +73,7 @@ namespace Deep.Windows
                 await DeepDungeonMenu.OpenResetMenu();
 
 
-            Logger.Info("Clicking Reset slot {0}", number +1);
+            Logger.Info("Clicking Reset slot {0} // {1}", number +1, SD.Reset);
             await Coroutine.Wait(5000,() => IsOpen);
             var window = RaptureAtkUnitManager.GetWindowByName(WindowNames.DDsave);
             window.SendAction(2, 3, number, 3, 2);
