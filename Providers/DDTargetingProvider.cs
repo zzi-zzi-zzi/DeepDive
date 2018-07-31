@@ -158,7 +158,12 @@ namespace Deep.Providers
 
         internal void AddToBlackList(GameObject obj, string reason)
         {
-            Blacklist.Add(obj, (BlacklistFlags)_floor, TimeSpan.FromMinutes(3), reason);
+            AddToBlackList(obj, TimeSpan.FromMinutes(3), reason);
+        }
+
+        internal void AddToBlackList(GameObject obj, TimeSpan time, string reason)
+        {
+            Blacklist.Add(obj, (BlacklistFlags)_floor, time, reason);
             Poi.Clear(reason);
         }
 

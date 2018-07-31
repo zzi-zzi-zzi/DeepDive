@@ -38,8 +38,14 @@ namespace Deep.TaskManager.Actions
                     Logger.Info(x.ToString());
                 }
 
-                Logger.Warn("No activity was detected for {0} seconds. Clearing POI and trying again.", MoveTimer.WaitTime.TotalSeconds);
-                Poi.Clear("No activity detected");
+                Logger.Warn("No activity was detected for {0} seconds. Adding target to the blacklist and trying again", MoveTimer.WaitTime.TotalSeconds);
+                if (Poi.Current.Unit != null)
+                {
+                    DDTargetingProvider.Instance.AddToBlackList(Poi.Current.Unit, TimeSpan.FromSeconds(3), "Navigation Error");
+                }
+                if(Poi.Current.Type != PoiType.None)
+                    Poi.Clear("No activity detected");
+
                 MoveTimer.Reset();
                 return true;
             }
