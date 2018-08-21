@@ -38,6 +38,11 @@ namespace Deep.TaskManager.Actions
         {
             var supportsCapabilities = RoutineManager.Current.SupportedCapabilities != CapabilityFlags.None;
 
+            if (AvoidanceManager.IsRunningOutOfAvoid && Core.Me.IsCasting)
+            {
+                ActionManager.StopCasting();
+                return true;
+            }
 
             if (AvoidanceManager.IsRunningOutOfAvoid && !supportsCapabilities)
                 return true;

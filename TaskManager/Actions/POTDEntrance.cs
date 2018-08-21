@@ -302,8 +302,15 @@ Aetherpool Armor: +{1}
 
                 await DeepDungeonSaveData.ClickSaveSlot(UseSaveSlot);
 
-                await Coroutine.Wait(2000, () => SelectString.IsOpen || ContentsFinderConfirm.IsOpen);
-                
+                await Coroutine.Wait(2000, () => SelectString.IsOpen || ContentsFinderConfirm.IsOpen || SelectYesno.IsOpen);
+
+                // if select yesno is open (new as of 4.36 hotfixes)
+                if (SelectYesno.IsOpen)
+                {
+                    SelectYesno.ClickYes();
+                    await Coroutine.Sleep(1000);
+                }
+
                 // if we are using an "empty" save slot
                 if (SelectString.IsOpen)
                 {
@@ -314,14 +321,14 @@ Aetherpool Armor: +{1}
 
                     SelectString.ClickSlot(0);
 
-                    await Coroutine.Sleep(500);
+                    await Coroutine.Sleep(1000);
 
                     //                    Logger.Verbose("Are you sure Fixed Party");
                     await Coroutine.Wait(1000, () => SelectYesno.IsOpen);
                     if (SelectYesno.IsOpen)
                         SelectYesno.ClickYes();
 
-                    await Coroutine.Sleep(500);
+                    await Coroutine.Sleep(1000);
 
                     //-- Are you sure you want to enter alone?
                     if (!PartyManager.IsInParty)
@@ -335,7 +342,7 @@ Aetherpool Armor: +{1}
                         //                        Logger.Verbose("Enter Alone?");
                         await Coroutine.Wait(1000, () => SelectYesno.IsOpen);
                         SelectYesno.ClickYes();
-                        await Coroutine.Sleep(500);
+                        await Coroutine.Sleep(1000);
                     }
 
                     //                    Logger.Verbose("Floor 51 wait");
@@ -343,7 +350,7 @@ Aetherpool Armor: +{1}
                     await Coroutine.Wait(1000, () => SelectString.IsOpen || ContentsFinderConfirm.IsOpen);
                     if (SelectString.IsOpen)
                     {
-                        await Coroutine.Sleep(500);
+                        await Coroutine.Sleep(1000);
 
                         if (Settings.Instance.StartAt51)
                             Logger.Verbose("Start at 51: {0}", _targetFloor.LevelMax > 50);
@@ -356,6 +363,7 @@ Aetherpool Armor: +{1}
                         {
                             SelectString.ClickSlot(0);
                         }
+                        await Coroutine.Sleep(1000);
                     }
                     Logger.Verbose("Done with window interaction.");
                 }
