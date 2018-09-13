@@ -290,6 +290,9 @@ Aetherpool Armor: +{1}
             {
                 Logger.Verbose("Resetting the floor");
                 await DeepDungeonSaveData.ClickReset(UseSaveSlot);
+                
+                // todo: wait for server response in a better way.
+                await Coroutine.Sleep(1000);
             }
             if (_error)
                 lock (_errorLock)
