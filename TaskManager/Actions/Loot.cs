@@ -47,10 +47,16 @@ namespace Deep.TaskManager.Actions
             {
                 return false;
             }
+
+            if(Target.Unit == null)
+            {
+                Poi.Clear("Target not found at location");
+                return true;
+            }
             
             //let the user know we are trying to run a treasure task
             TreeRoot.StatusText = "Treasure";
-            if (Target.Unit.NpcId == EntityNames.Hidden)
+            if (Target.Unit?.NpcId == EntityNames.Hidden)
             {
                 return await HandleCacheOfTheHoard();
             }

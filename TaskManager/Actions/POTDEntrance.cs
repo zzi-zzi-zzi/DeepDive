@@ -325,8 +325,12 @@ Aetherpool Armor: +{1}
 
                     //                    Logger.Verbose("Are you sure Fixed Party");
                     await Coroutine.Wait(1000, () => SelectYesno.IsOpen);
+                    await Coroutine.Sleep(150);
                     if (SelectYesno.IsOpen)
+                    {
                         SelectYesno.ClickYes();
+                        await Coroutine.Sleep(150);
+                    }
 
                     await Coroutine.Sleep(1000);
 
@@ -336,6 +340,7 @@ Aetherpool Armor: +{1}
                         //                        Logger.Verbose("Enter Alone Talk");
                         //talk stuff
                         await Coroutine.Wait(1000, () => Talk.DialogOpen);
+                        await Coroutine.Sleep(150);
                         Talk.Next();
 
                         await Coroutine.Sleep(500);
