@@ -36,14 +36,14 @@ namespace Deep.Forms
 
         }
 
+        private void SettingsForm_Closed(object sender, FormClosedEventArgs e) {
+            Levels.SelectedIndexChanged -= changelevel;
+            solostop.CheckedChanged -= solostop_CheckStateChanged;
+        }
+
         private void changelevel(object sender, EventArgs e)
         {
             Logger.Verbose($"Changing the selected floor to run");
-            Settings.Instance.SelectedLevel = (FloorSetting)Levels.SelectedItem;
-        }
-
-        private void Levels_SelectedIndexChanged(object sender, EventArgs e)
-        {
             Settings.Instance.SelectedLevel = (FloorSetting)Levels.SelectedItem;
         }
 
@@ -52,6 +52,5 @@ namespace Deep.Forms
             Logger.Verbose($"Changing stop state");
             Settings.Instance.SoloStop = !Settings.Instance.SoloStop;
         }
-
     }
 }
