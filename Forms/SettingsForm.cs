@@ -36,7 +36,8 @@ namespace Deep.Forms
 
         }
 
-        private void SettingsForm_Closed(object sender, FormClosedEventArgs e) {
+        private void SettingsForm_Closed(object sender, FormClosedEventArgs e) 
+        {
             Levels.SelectedIndexChanged -= changelevel;
             solostop.CheckedChanged -= solostop_CheckStateChanged;
         }
