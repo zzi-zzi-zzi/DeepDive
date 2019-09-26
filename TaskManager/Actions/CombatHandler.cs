@@ -207,35 +207,36 @@ namespace Deep.TaskManager.Actions
         /// <returns></returns>
         private async Task<bool> UsePomanderSpell()
         {
-            if (Core.Me.HasAura(Auras.Lust) || Core.Me.HasAura(Auras.Rage))
+            var player = Core.Me;
+            if (player.HasAura(Auras.Lust) || player.HasAura(Auras.Rage))
             {
                 if (DeepDungeonManager.BossFloor)
                 {
-                    if ((Core.Target as Character)?.GetAuraById(714)?.Value == 5 && Core.Me.ClassLevel > 30 ||
-                        Core.Me.CurrentHealthPercent < 65)
+                    if ((Core.Target as Character)?.GetAuraById(714)?.Value == 5 && player.ClassLevel > 30 ||
+                        player.CurrentHealthPercent < 65)
                     {
                         await Tasks.Coroutines.Common.CancelAura(Auras.Lust);
                         return true;
                     }
                 }
-                if (Core.Me.IsCasting)
+                if (player.IsCasting)
                 {
                     await Coroutine.Yield();
                     return true;
                 }
-                if (Tasks.Coroutines.Common.PomanderState == ItemState.Lust)
+                
+                if (hasspell(LustSpell.Id))
                 {
                     await CastPomanderAbility(LustSpell);
-  
                     return true;
                 }
-                else if (Tasks.Coroutines.Common.PomanderState == ItemState.Rage)
-                {
 
+                if (hasspell(PummelSpell.Id))
+                {
                     await CastPomanderAbility(PummelSpell);
-                
                     return true;
                 }
+
                 Logger.Warn("I am under the effects of Lust or Rage and Don't know either spell. Please send help!");
                 await Coroutine.Yield();
                 return false;
@@ -246,6 +247,26 @@ namespace Deep.TaskManager.Actions
             {
                 Tasks.Coroutines.Common.PomanderState = ItemState.None;
             }
+            return false;
+        }
+
+        /// <summary>
+        /// hacky method to check what transform we are in
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private bool hasspell(uint id)
+        {
+            var hbs = HotbarManager.HotbarsSlot;
+            for (uint i = 0; i < hbs.Length; i++)
+            {
+                var hb = hbs[i];
+                if (hb.ActionId1 == id)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
