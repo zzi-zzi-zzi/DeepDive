@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ff14bot.Directors;
 
 namespace Deep.TaskManager.Actions
 {
@@ -44,11 +45,22 @@ namespace Deep.TaskManager.Actions
                     return true;
                 }
             }
-            if(Talk.DialogOpen)
+
+            if (Talk.DialogOpen)
             {
                 Talk.Next();
                 return true;
             }
+
+            //wait if the barrier is still up
+            if (DirectorManager.ActiveDirector is InstanceContentDirector activeAsInstance)
+            {
+                if (activeAsInstance.TimeLeftInDungeon == TimeSpan.Zero)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
