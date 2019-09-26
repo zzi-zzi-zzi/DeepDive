@@ -178,7 +178,7 @@ namespace Deep.Providers
 
             }
 
-            Logger.Info($"[walls] {string.Join(", ", _hit.Keys)}");
+            //Logger.Info($"[walls] {string.Join(", ", _hit.Keys)}");
 
             return updated;
 
