@@ -48,20 +48,36 @@ namespace Deep.Tasks.Coroutines
 
         internal static ItemState PomanderState = ItemState.None;
 
+        static Common()
+        {
+            foreach (var item in Enum.GetValues(typeof(Pomander)).Cast<Pomander>())
+            {
+                PomanderLockoutTimers.Add(item,new WaitTimer(TimeSpan.FromSeconds(3)));
+            }
+        }
+        private static readonly Dictionary<Pomander,WaitTimer> PomanderLockoutTimers = new Dictionary<Pomander, WaitTimer>();
         internal static async Task<bool> UsePomander(Pomander number, uint auraId = 0)
         {
-            if (Core.Me.HasAura(Auras.ItemPenalty) && number != Pomander.Serenity) return false;
+            if (Core.Me.HasAura(Auras.ItemPenalty) && number != Pomander.Serenity) 
+                return false;
 
             //cannot use pomander while under the auras of rage / lust
-            if (Core.Me.HasAnyAura(Auras.Lust, Auras.Rage)) return false;
+            if (Core.Me.HasAnyAura(Auras.Lust, Auras.Rage)) 
+                return false;
 
             var data = DeepDungeonManager.GetInventoryItem(number);
-            if (data.Count == 0) return false;
+            if (data.Count == 0) 
+                return false;
 
-            if (data.HasAura) return false;
+            if (data.HasAura) 
+                return false;
 
-            if (Core.Me.HasAura(auraId) &&
-                    Core.Me.GetAuraById(auraId).TimespanLeft > TimeSpan.FromMinutes(1)) return false;
+            if (Core.Me.HasAura(auraId) && Core.Me.GetAuraById(auraId).TimespanLeft > TimeSpan.FromMinutes(1)) 
+                return false;
+
+            var lockoutTimer = PomanderLockoutTimers[number];
+            if (!lockoutTimer.IsFinished)
+                return false;
 
             await Coroutine.Wait(5000, () => !DeepDungeonManager.IsCasting);
 
@@ -94,6 +110,8 @@ namespace Deep.Tasks.Coroutines
                     PomanderState = ItemState.Resolution;
                     break;
             }
+
+            lockoutTimer.Reset();
 
             return true;
         }
