@@ -27,7 +27,9 @@ namespace Deep.Helpers
     {
         public static InstanceContentDirector Director => DirectorManager.ActiveDirector as InstanceContentDirector;
 
-        public static bool BossFloor => Director != null ? (Director.DeepDungeonLevel % 10 == 0) : false;
+        public static bool BossFloor => Director != null && (Director.DeepDungeonLevel % 10 == 0);
+        public static bool NextFloorIsBossFloor => Director != null && (Director.DeepDungeonLevel % 10 == 9);
+
         public static DDInventoryItem GetInventoryItem(Pomander pom)
         {
             return Director.DeepDungeonInventory[(byte)pom - 1];

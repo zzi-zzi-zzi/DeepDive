@@ -221,7 +221,8 @@ namespace Deep.TaskManager.Actions
         /// <returns></returns>
         private async Task<bool> BuffNextFloor()
         {
-            if (Core.Me.HasAura(Auras.ItemPenalty) || DeepDungeonManager.BossFloor) return false;
+            if (Core.Me.HasAura(Auras.ItemPenalty) || DeepDungeonManager.BossFloor || DeepDungeonManager.NextFloorIsBossFloor) 
+                return false;
 
             if (await UsePomander(Pomander.Flight))
                 return true;
