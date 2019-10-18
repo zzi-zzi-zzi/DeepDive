@@ -42,6 +42,8 @@ namespace Deep.TaskManager.Actions
                 return false;
 
 
+            if (Target.Location == Vector3.Zero)
+                return true;
 
             if(Navigator.InPosition(Core.Me.Location, Target.Location, 3f) && Target.Type == (PoiType)PoiTypes.ExplorePOI)
             {
@@ -58,7 +60,7 @@ namespace Deep.TaskManager.Actions
                 return true;
             }
 
-            var res = await CommonTasks.MoveAndStop(new MoveToParameters(Target.Location, "Moving toward POTD Objective"), 1.5f);
+            var res = await CommonTasks.MoveAndStop(new MoveToParameters(Target.Location, "Moving toward POTD Objective:" + Target.Name), 1.5f);
 
             //if (Target.Unit != null)
             //{
