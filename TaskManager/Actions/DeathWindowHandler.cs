@@ -29,6 +29,7 @@ namespace Deep.TaskManager.Actions
         {
             if (RaptureAtkUnitManager.GetWindowByName("DeepDungeonResult") != null)
             {
+                GameStatsManager.Died();
                 Logger.Warn($"We have died...");
                 RaptureAtkUnitManager.GetWindowByName("DeepDungeonResult").SendAction(1, 3, uint.MaxValue);
                 await Coroutine.Sleep(250);
