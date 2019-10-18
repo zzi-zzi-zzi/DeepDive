@@ -27,67 +27,120 @@ namespace Deep.Providers
     // ReSharper disable once InconsistentNaming
     internal class DDCombatTargetingProvider : ITargetingProvider
     {
-        private Vector3 _distance;
+        private Vector3 _location;
+        private int _level;
+        private GameObject _targetObject;
 
         internal IEnumerable<BattleCharacter> Targets { get; private set; }
         public List<BattleCharacter> GetObjectsByWeight()
         {
-            _distance = Core.Me.Location;
+            //Set some variables here that will get called often so memory reads only need to be performed one time
+            var player = Core.Me;
+            _location = player.Location;
+            _level = player.ClassLevel;
+            _targetObject = Core.Target;
 
-            Targets = GameObjectManager.GetObjectsOfType<BattleCharacter>()
+            var bossFloor = DeepDungeonManager.BossFloor;
+            var combatReach = Constants.ModifiedCombatReach;
+
+            if (combatReach > 1)
+                combatReach *= combatReach;
+
+            var portalActive = DeepDungeonManager.PortalActive;
+
+
+            var units = GameObjectManager.GetObjectsOfType<BattleCharacter>();//.ToArray();
+
+            //using (new PerformanceTimer("targeting " + units.Length))
+            //{
+
+            var inDD = Constants.InDeepDungeon;
+            Targets = units
                 .Where(target =>
                 {
-                    if (target.NpcId == 5042)
+                    var targetNpcId = target.NpcId;
+                    if (targetNpcId == 5042 || targetNpcId == 0)
                         return false;
 
-                    if(Constants.InDeepDungeon && (Blacklist.Contains(target) && !target.InCombat))
+                    var targetInCombat = target.InCombat;
+
+                    if (inDD && (Blacklist.Contains(target) && !targetInCombat))
                         return false;
-                    if (Constants.TrapIds.Contains(target.NpcId) || Constants.IgnoreEntity.Contains(target.NpcId))
+
+                    if (Constants.TrapIds.Contains(targetNpcId) || Constants.IgnoreEntity.Contains(targetNpcId))
                         return false;
 
-                    return  !target.IsDead;
-                })
-                .Where(target => 
-                    target.StatusFlags.HasFlag(StatusFlags.Hostile) && (target.InLineOfSight() || target.InCombat)
-                );
+                    if (!target.IsTargetable)
+                        return false;
 
-            return Targets.Where(target =>
-            {
-                if (DeepDungeonManager.BossFloor)
-                    return true;
+                    if (portalActive && !targetInCombat)
+                    {
+                        var targetLevel = target.ClassLevel;
+                        if (_level - targetLevel >= 3)
+                        {
+                            return false;
+                        }
+                    }
 
-                return target.Distance2D() < Constants.ModifiedCombatReach;
-            })
-                .OrderByDescending(Priority)
-                .ToList();
+                    if (target.IsDead) 
+                        return false;
+
+                    if (target.StatusFlags.HasFlag(StatusFlags.Hostile))
+                    {
+                        if (bossFloor)
+                            return true;
+
+                        if (target.Location.Distance2DSqr(_location) < combatReach)
+                        {
+                            return targetInCombat || target.InLineOfSight();
+                        }
+                    }
+
+                    return false;
+                });
+
+
+
+
+            return Targets.OrderByDescending(Priority).ToList();
+            //}
+
+
         }
 
         private double Priority(BattleCharacter battleCharacter)
         {
-			var weight = 1000.0;
-            weight -= battleCharacter.Distance2D(_distance) / 2.25;
-			weight += battleCharacter.ClassLevel / 1.25;
+            var weight = 1000.0;
+            var distance2D = battleCharacter.Distance2D(_location);
+
+            weight -= distance2D / 2.25;
+
+            weight += battleCharacter.ClassLevel / 1.25;
+
             weight += 100 - battleCharacter.CurrentHealthPercent;
-            
+
             if (battleCharacter.HasTarget && battleCharacter.TargetCharacter == Core.Me)
                 weight += 50;
 
-            if (!battleCharacter.InCombat)
+            var battleCharacterInCombat = battleCharacter.InCombat;
+
+            if (!battleCharacterInCombat)
                 weight -= 5;
             else
                 weight += 50;
 
-            if (Core.Target != null && Core.Target.ObjectId == battleCharacter.ObjectId)
+            if (_targetObject != null && _targetObject.ObjectId == battleCharacter.ObjectId)
                 weight += 10;
 
-			if (battleCharacter.InCombat && battleCharacter.Location.Distance2D(Core.Me.Location) < 5)
-				weight *= 1.5;
+            if (battleCharacterInCombat && distance2D < 5)
+                weight *= 1.5;
 
-            if (battleCharacter.Distance2D(_distance) > 25)
+            if (distance2D > 25)
                 weight /= 2;
-            
-            if ((battleCharacter.NpcId == Mobs.PalaceHornet || battleCharacter.NpcId == Mobs.PalaceSlime) && battleCharacter.InCombat )
+
+            if ((battleCharacter.NpcId == Mobs.PalaceHornet || battleCharacter.NpcId == Mobs.PalaceSlime) && battleCharacterInCombat)
                 return weight * 100.0;
+
 
             return weight;
         }
