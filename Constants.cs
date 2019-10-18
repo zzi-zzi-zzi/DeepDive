@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Clio.Utilities;
 using Deep.Helpers;
+using Deep.Logging;
 using Deep.Memory;
 using ff14bot;
 using ff14bot.Enums;
@@ -165,6 +167,43 @@ namespace Deep
         public uint Recovery => (uint)Math.Min(RecoverMax, Max[1]);
 
         public float LevelScore => Max[1] / RecoverMax;
+
+
+        public float EffectiveMax(float playerMaxHeath, bool hq)
+        {
+            return playerMaxHeath * Rate[hq ? 1 : 0];
+        }
+
+        public float EffectiveHPS(float playerMaxHeath, bool hq)
+        {
+            var effectiveMax = EffectiveMax(playerMaxHeath, hq);
+            float cooldown = ItemData[hq ? 1 : 0].Cooldown;
+            if (hq)
+                cooldown = cooldown * .89f;
+
+
+            //Logger.Info($"{ItemData[hq ? 1 : 0]}  has a effective HPS of {effectiveMax / cooldown}");
+            return  effectiveMax / cooldown;
+        }
+
+        private Item[] ItemData;
+        private float[] HPs;
+
+        internal void Setup()
+        {
+            ItemData = new Item[2]
+            {
+                DataManager.GetItem(Id, false),
+                DataManager.GetItem(Id, true)
+            };
+
+            HPs = new[]
+            {
+                Max[0] / (float)ItemData[0].Cooldown,
+                Max[1] / (float)ItemData[1].Cooldown,
+            };
+
+        }
     }
 
 
@@ -198,6 +237,20 @@ namespace Deep
                     };
 
             DeepDungeonRawIds = Maps.Keys.ToArray();
+
+
+
+
+
+
+
+            Pots = loadResource<Potion[]>(Resources.pots).ToDictionary(r => r.Id, r => r);
+            foreach (var pot in Pots)
+            {
+                PotionIds.Add(pot.Key);
+                pot.Value.Setup();
+            }
+
         }
         /// <summary>
         /// returns true if we are in any of the Deep Dungeon areas.
@@ -239,8 +292,10 @@ namespace Deep
   2007186
 };
 
-        private static Potion[] _pots;
-        internal static Potion[] Pots => _pots ?? (_pots = loadResource<Potion[]>(Resources.pots));
+       
+
+        internal static HashSet<uint> PotionIds = new HashSet<uint>();
+        internal static Dictionary<uint,Potion> Pots { get; private set; }
 
         public static bool InExitLevel => WorldManager.ZoneId == 570;
 
@@ -248,18 +303,10 @@ namespace Deep
         /// loads a json resource file
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="file"></param>
+        /// <param name="text"></param>
         /// <returns></returns>
         private static T loadResource<T>(string text)
         {
-            //string text;
-            //using (var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(file))
-            //{
-            //    using (var streamReader = new StreamReader(manifestResourceStream))
-            //    {
-            //        text = streamReader.ReadToEnd();
-            //    }
-            //}
             return JsonConvert.DeserializeObject<T>(text);
         }
 

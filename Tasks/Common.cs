@@ -116,7 +116,7 @@ namespace Deep.Tasks.Coroutines
             return true;
         }
 
-        private static List<uint> PotIDs => Constants.Pots.Select(i => i.Id).ToList();
+        private static List<uint> PotIDs => Constants.Pots.Keys.ToList();
 
         /// <summary>
         /// can we use a potion
@@ -151,31 +151,41 @@ namespace Deep.Tasks.Coroutines
         /// <returns></returns>
         internal static async Task<bool> UsePots(bool force = false)
         {
-            if (Core.Me.CurrentHealthPercent > 99) return false;
+            var localPlayer = Core.Me;
+            if (localPlayer.CurrentHealthPercent > 99) 
+                return false;
 
-            var tenpcnt = Core.Me.MaxHealth;
-            foreach (var pots in Constants.Pots.Select( i=> new
-                {
-                    pot = InventoryManager.FilledSlots.FirstOrDefault(r => r.RawItemId == i.Id),
-                    data = i,
-                    sort = i.Recovery / tenpcnt
-            } ).Where(i => i.pot != null)
-                .Where(i => i.data.Recovery <= Core.Me.MissingHealth())
-                .OrderByDescending(i => i.sort)
-                )
+            var currentHealth = localPlayer.CurrentHealth;
+            var maxHealth = localPlayer.MaxHealth;
+            var healthPercent = (currentHealth / (float)maxHealth) ;
+            var healthDelta = 100 - healthPercent;
+            healthPercent *= 100;
+            if (healthPercent <= 80)
             {
-                var pot = pots.pot;
-                if (pot.CanUse())
-                {
-                    Logger.Info($"Attempting to recover: {pots.data.Recovery} hp");
+                var strongestPotion = InventoryManager.FilledSlots.ToList().
+                    Where(r=>Constants.Pots.ContainsKey(r.RawItemId)).
+                    Select(r=>new Tuple<Potion,BagSlot>(Constants.Pots[r.RawItemId],r)).
+                    OrderByDescending(r=>r.Item1.EffectiveHPS(maxHealth,r.Item2.IsHighQuality)).FirstOrDefault();
 
-                    if (await UseItem(pot))
+                if (strongestPotion != null)
+                {
+                    if (!force && healthDelta < strongestPotion.Item1.Rate[strongestPotion.Item2.IsHighQuality ? 1 : 0])
                     {
+                        Logger.Info($"Waiting for health to drop lower before we use {strongestPotion.Item2.Item} to recover {strongestPotion.Item1.EffectiveMax(maxHealth, strongestPotion.Item2.IsHighQuality)} hp");
+                        return false;
+                    }
+
+                    if (strongestPotion.Item2.CanUse())
+                    {
+                        Logger.Info($"Attempting to recover: {strongestPotion.Item1.EffectiveMax(maxHealth, strongestPotion.Item2.IsHighQuality)} hp via {strongestPotion.Item2.Item}");
+
+                        strongestPotion.Item2.UseItem();
                         return true;
                     }
+
                 }
-                await Coroutine.Yield();
             }
+
             return false;
         }
 
