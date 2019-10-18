@@ -216,6 +216,7 @@ namespace Deep.TaskManager.Actions
                         player.CurrentHealthPercent < 65)
                     {
                         await Tasks.Coroutines.Common.CancelAura(Auras.Lust);
+                        ActionManager.StopCasting();
                         return true;
                     }
                 }
