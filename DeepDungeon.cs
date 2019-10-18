@@ -42,7 +42,7 @@ using ff14bot.Helpers;
 namespace Deep
 {
 
-    public partial class DeepDungeon : BotBase
+    public partial class DeepDungeon : AsyncBotBase
     {
         public override string EnglishName => "Deep Dungeon";
 #if RB_CN
@@ -265,6 +265,27 @@ namespace Deep
                     return true;
                 });
 
+        }
+
+        public override async Task AsyncRoot()
+        {
+            if (StopPlz)
+                return;
+            if (!_init)
+            {
+                ff14bot.Helpers.Logging.Write($"DeepDive is waiting on Initialization to finish");
+                return;
+            }
+            if (await _tasks.Run())
+            {
+                await Coroutine.Yield();
+            }
+            else
+            {
+                Logger.Warn($"No tasks ran");
+                await Coroutine.Sleep(1000);
+            }
+            return;
         }
 
         private static void SetupSettings()
