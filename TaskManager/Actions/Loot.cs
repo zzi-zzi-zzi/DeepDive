@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Deep.Tasks.Coroutines;
 
 namespace Deep.TaskManager.Actions
 {
@@ -36,6 +37,22 @@ namespace Deep.TaskManager.Actions
         public string Name => "Loot";
 
         Poi Target => Poi.Current;
+
+
+        private static HashSet<uint> pomanderSpellIds = new HashSet<uint>()
+        {
+            6259,6260,6262,6263,6264,6265,6266,6267,6268,6269,6270,6271,6272,6868,6869,6870,11275,11276,11277
+        };
+        private static HashSet<string> pomanderLocalizedNames = new HashSet<string>();
+        static Loot()
+        {
+            foreach (var spellId in pomanderSpellIds)
+            {
+                //append and prepend a space so we easily filter out that specific message
+                pomanderLocalizedNames.Add(" " + DataManager.GetSpellData(spellId).LocalizedName + " ");
+            }
+        }
+
 
         public async Task<bool> Run()
         {
@@ -80,53 +97,87 @@ namespace Deep.TaskManager.Actions
                 return true;
             }
 
-            while (!DeepDungeon.StopPlz && tries < 3)
+            pomanderCapped = false;
+            //Unsubscribe first to prevent subscriptions from persisting
+            GamelogManager.MessageRecevied -= GamelogManagerOnMessageRecevied;
+            GamelogManager.MessageRecevied += GamelogManagerOnMessageRecevied;
+
+            while (!DeepDungeon.StopPlz && (Target.Unit != null && Target.Unit.IsValid) && tries < 3 && !pomanderCapped)
             {
-                //if we are a frog / lust we can't open a chest
-                if (Core.Me.HasAura(Auras.Toad) || Core.Me.HasAura(Auras.Frog) || Core.Me.HasAura(Auras.Toad2) || Core.Me.HasAura(Auras.Lust))
+                try
                 {
-                    Logger.Warn("Unable to open chest. Waiting for aura to end...");
-                    await CommonTasks.StopMoving("Waiting on aura to end");
-                    await Coroutine.Wait(TimeSpan.FromSeconds(30),
-                        () => !(Core.Me.HasAura(Auras.Toad) || Core.Me.HasAura(Auras.Frog) || Core.Me.HasAura(Auras.Toad2) || Core.Me.HasAura(Auras.Lust)) ||
-                              Core.Me.InCombat || DeepDungeon.StopPlz);
-                    return true;
-                }
+                    //if we are a frog / lust we can't open a chest
+                    if (Core.Me.HasAura(Auras.Toad) || Core.Me.HasAura(Auras.Frog) || Core.Me.HasAura(Auras.Toad2) || Core.Me.HasAura(Auras.Lust))
+                    {
+                        Logger.Warn("Unable to open chest. Waiting for aura to end...");
+                        await CommonTasks.StopMoving("Waiting on aura to end");
+                        await Coroutine.Wait(TimeSpan.FromSeconds(30),
+                            () => !(Core.Me.HasAura(Auras.Toad) || Core.Me.HasAura(Auras.Frog) || Core.Me.HasAura(Auras.Toad2) || Core.Me.HasAura(Auras.Lust)) ||
+                                  Core.Me.InCombat || DeepDungeon.StopPlz);
+                        return true;
+                    }
 
                 
-                await Coroutine.Yield();
+                    await Coroutine.Yield();
 
-                if (Core.Me.HasAura(Auras.Lust))
-                {
-                    await Tasks.Coroutines.Common.CancelAura(Auras.Lust);
+                    if (Core.Me.HasAura(Auras.Lust))
+                    {
+                        await Common.CancelAura(Auras.Lust);
+                    }
+                    Logger.Verbose("Attempting to interact with: {0} ({1} / 3)", Target.Name, tries + 1);
+
+                    await CommonTasks.StopMoving("Stop and open chest");
+                    Target.Unit.Target();
+                    Target.Unit.Interact();
+                    await Coroutine.Sleep(800);
+
+                    
+                    if (!Target.Unit.IsTargetable)
+                        break;
+                    if (SelectYesno.IsOpen)
+                        break;
                 }
-                Logger.Verbose("Attempting to interact with: {0} ({1} / 3)", Target.Name, tries + 1);
-                Target.Unit.Target();
-                Target.Unit.Interact();
-                await Coroutine.Sleep(500);
-
-                tries++;
-                if (!Target.Unit.IsTargetable)
-                    break;
-                if (SelectYesno.IsOpen)
-                    break;
+                finally
+                {
+                    tries++;
+                }
             }
+            GamelogManager.MessageRecevied -= GamelogManagerOnMessageRecevied;
 
-            
             await Coroutine.Wait(500, () => SelectYesno.IsOpen);
             
             //if this is an exit
             if (SelectYesno.IsOpen)
             {
                 SelectYesno.ClickYes();
-                await Coroutine.Wait(TimeSpan.MaxValue,
-                    () => DeepDungeon.StopPlz || QuestLogManager.InCutscene || NowLoading.IsVisible);
+                await Coroutine.Wait(TimeSpan.MaxValue, () => DeepDungeon.StopPlz || QuestLogManager.InCutscene || NowLoading.IsVisible);
                 return true;
             }
-            Blacklist.Add(Target.Unit.ObjectId, TimeSpan.FromMinutes(5), $"Tried to Interact with the Target {tries} times");
+
+            if (Target.Unit != null && Target.Unit.IsValid)
+                Blacklist.Add(Target.Unit.ObjectId, TimeSpan.FromMinutes(5), $"Tried to Interact with the Target {tries} times");
+
             Poi.Clear($"Tried to Interact with the Target {tries} times");
 
             return false;
+        }
+
+        internal bool pomanderCapped = false;
+        private void GamelogManagerOnMessageRecevied(object sender, ChatEventArgs e)
+        {
+            if (e.ChatLogEntry.MessageType == (MessageType)2105)
+            {
+                foreach (var name in pomanderLocalizedNames)
+                {
+                    if (e.ChatLogEntry.FullLine.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Logger.Info("Got a message that looks like we are capped on" + name);
+                        GamelogManager.MessageRecevied -= GamelogManagerOnMessageRecevied;
+                        pomanderCapped = true;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -176,7 +227,7 @@ namespace Deep.TaskManager.Actions
 
 
             Blacklist.Add(org, BlacklistFlags.All | (BlacklistFlags)DeepDungeonManager.Level, TimeSpan.FromMinutes(3), "Spawned the Coffer or used all of our time...");
-            Poi.Clear($"Hidden adden to blacklist");
+            Poi.Clear($"Hidden added to blacklist");
             return true;
         }
 
