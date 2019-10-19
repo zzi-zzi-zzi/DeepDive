@@ -208,7 +208,7 @@ namespace Deep
     }
 
 
-    internal static class Constants
+    internal static partial class Constants
     {
         static Constants()
         {
