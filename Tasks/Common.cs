@@ -95,6 +95,9 @@ namespace Deep.Tasks.Coroutines
                 data = DeepDungeonManager.GetInventoryItem(number);
             }
 
+            //Wait a little so we don't trigger the anti-stuck
+            await Coroutine.Sleep(1000);
+
             //TODO this is probabbly stored somewhere in the client...
             switch (number)
             {
