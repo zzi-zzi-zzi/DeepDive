@@ -393,7 +393,7 @@ namespace Deep.TaskManager.Actions
                 return;
             }
 
-            if (Poi.Current.Unit != null && Poi.Current.Type != PoiType.Kill)
+            if (Poi.Current.Unit != null && Poi.Current.Unit.IsValid && Poi.Current.Type != PoiType.Kill)
             {
                 if (!Core.Me.InRealCombat() && Poi.Current.Unit.Distance2D() < CombatTargeting.Instance.FirstUnit.Distance2D())
                     return;
