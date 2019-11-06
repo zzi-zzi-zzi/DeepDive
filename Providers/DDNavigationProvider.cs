@@ -46,13 +46,13 @@ namespace Deep.Providers
         private static Dictionary<uint, bool> _hit;
         internal static Dictionary<uint, bool> Walls => _hit;
 
-        private List<uint> _traps;
+        private HashSet<uint> _traps;
 
         private static List<Vector3> _trapPos;
         internal static List<Vector3> Traps => _trapPos;
 
         private static List<Vector3> _map;
-        private const float TrapSize = 2.4f;
+        internal const float TrapSize = 2.4f;
 
         private int _floorId;
         private HashSet<uint> activeWalls;
@@ -75,7 +75,7 @@ namespace Deep.Providers
 
             //load the map
             _hit = new Dictionary<uint, bool>();
-            _traps = new List<uint>();
+            _traps = new HashSet<uint>();
             _trapPos = new List<Vector3>();
             _map = new List<Vector3>();
 
@@ -320,19 +320,21 @@ namespace Deep.Providers
         private void AddBlackspots()
         {
             //if we have added blackspots already OR there aren't any traps
-            if (!GameObjectManager.GameObjects.Any(
-                i => i.Location != Vector3.Zero && Constants.TrapIds.Contains(i.NpcId) && !_traps.Contains(i.ObjectId))) return;
+            var validObjects = GameObjectManager.GetObjectsOfType<EventObject>().Where(i => i.Location != Vector3.Zero && Constants.TrapIds.Contains(i.NpcId) && !_traps.Contains(i.ObjectId));
+
+            var gameObjects = validObjects as GameObject[] ?? validObjects.ToArray();
+            if (!gameObjects.Any()) 
+                return;
+
+            Logger.Verbose("Adding Black spots {0}", gameObjects.Length);
+            foreach (var i in gameObjects.Where(i => i.IsVisible))
             {
-                Logger.Verbose("Adding Black spots {0}", GameObjectManager.GameObjects.Count(i => i.Location != Vector3.Zero && Constants.TrapIds.Contains(i.NpcId)));
-                foreach (var i in GameObjectManager.GameObjects.Where(i => i.Location != Vector3.Zero && Constants.TrapIds.Contains(i.NpcId) && !_traps.Contains(i.ObjectId) && i.IsVisible))
-                {
-                    Logger.Verbose($"[{i.NpcId}] {i.ObjectId} - {i.Location}");
-                    //_detour.AddBlackspot(i.Location, TrapSize);
-                    trapList.Add(new BoundingCircle() { Center = i.Location, Radius = TrapSize });
-                    _traps.Add(i.ObjectId);
-                    _trapPos.Add(i.Location);
-                }
+                Logger.Verbose($"[{i.NpcId}] {i.ObjectId} - {i.Location}");
+                trapList.Add(new BoundingCircle() { Center = i.Location, Radius = TrapSize });
+                _traps.Add(i.ObjectId);
+                _trapPos.Add(i.Location);
             }
+            
         }
     }
 
