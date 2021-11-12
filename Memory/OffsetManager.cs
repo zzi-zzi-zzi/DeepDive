@@ -24,38 +24,40 @@ namespace Deep.Memory
         internal static void Init()
         {
             var types = typeof(Offsets).GetFields(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-
-            Parallel.ForEach(types, type =>
-                {
-                    var pf = new PatternFinder(Core.Memory);
-                    if (type.FieldType.IsClass)
+            using (var pf = new PatternFinder(Core.Memory))
+            {
+                Parallel.ForEach(types, type =>
                     {
-                        var instance = Activator.CreateInstance(type.FieldType);
 
-
-                        foreach (var field in type.FieldType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+                        if (type.FieldType.IsClass)
                         {
-                            var res = ParseField(field, pf);
-                            if (field.FieldType == typeof(IntPtr))
-                                field.SetValue(instance, res);
-                            else
-                                field.SetValue(instance, (int)res);
-                        }
+                            var instance = Activator.CreateInstance(type.FieldType);
+
+
+                            foreach (var field in type.FieldType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+                            {
+                                var res = ParseField(field, pf);
+                                if (field.FieldType == typeof(IntPtr))
+                                    field.SetValue(instance, res);
+                                else
+                                    field.SetValue(instance, (int)res);
+                            }
 
                         //set the value
                         type.SetValue(null, instance);
-                    }
-                    else
-                    {
-                        var res = ParseField(type, pf);
-                        if (type.FieldType == typeof(IntPtr))
-                            type.SetValue(null, res);
+                        }
                         else
-                            type.SetValue(null, (int)res);
+                        {
+                            var res = ParseField(type, pf);
+                            if (type.FieldType == typeof(IntPtr))
+                                type.SetValue(null, res);
+                            else
+                                type.SetValue(null, (int)res);
+                        }
                     }
 
-                }
-            );
+                );
+            }
         }
 
         private static IntPtr ParseField(FieldInfo field, PatternFinder pf)
