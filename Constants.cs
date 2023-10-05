@@ -335,7 +335,6 @@ namespace Deep
 
             Lang = field;
 
-            OffsetManager.Init();
         }
     }
 }

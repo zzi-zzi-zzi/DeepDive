@@ -33,6 +33,7 @@ using System.Drawing;
 using ff14bot.Helpers;
 using ff14bot.ServiceClient;
 using Deep.Helpers;
+using ff14bot.Buddy.Offsets;
 
 namespace Deep.Providers
 {
@@ -197,10 +198,10 @@ namespace Deep.Providers
             if (director == IntPtr.Zero)
                 return new HashSet<uint>();
 
-            var v187A = Core.Memory.Read<byte>(director + Offsets.DDMapGroup);
+            var v187A = Core.Memory.Read<byte>(director + PublicOffsets.DeepDungeonOffsets.DDMapGroup);
 
-            var v3 = director + Offsets.Map5xStart + (v187A * Offsets.Map5xSize);
-            var v332 = Core.Memory.Read<ushort>(v3 + Offsets.WallStartingPoint);
+            var v3 = director + PublicOffsets.DeepDungeonOffsets.Map5xStart + (v187A * PublicOffsets.DeepDungeonOffsets.Map5xSize);
+            var v332 = Core.Memory.Read<ushort>(v3 + PublicOffsets.DeepDungeonOffsets.WallStartingPoint);
 
             var v29 = v3 + 0x10;
             var v7_location = v29;
@@ -224,8 +225,8 @@ namespace Deep.Providers
                         // var wall = Core.Memory.Read<uint>(v9 + Offsets.UNK_StartingCircle);
                         //wallset.Add(wall);
 
-                        var @byte = Core.Memory.Read<byte>(director + v5 + Offsets.WallGroupEnabled);
-                        var walls = Core.Memory.ReadArray<uint>(v9 + Offsets.Starting, 4);
+                        var @byte = Core.Memory.Read<byte>(director + v5 + PublicOffsets.DeepDungeonOffsets.WallGroupEnabled);
+                        var walls = Core.Memory.ReadArray<uint>(v9 + PublicOffsets.DeepDungeonOffsets.Starting, 4);
                         for (var v16 = 0; v16 < 4; v16++)
                         {
                             if (walls[v16] < 2)

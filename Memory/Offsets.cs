@@ -10,7 +10,6 @@ Orginal work done by zzi, contibutions by Omninewb, Freiheit, and mastahg
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
-using Deep.Memory.Attributes;
 using ff14bot;
 using ff14bot.Behavior;
 using ff14bot.Enums;
@@ -20,6 +19,8 @@ namespace Deep.Memory
 {
 
 #pragma warning disable CS0649
+    /*
+     Left here in case anyone cares
     internal static class Offsets
     {
         [Offset("Search 0F B6 81 ? ? ? ? 4C 8D AE ? ? ? ? Add 3 Read32")]
@@ -45,6 +46,6 @@ namespace Deep.Memory
         [Offset("Search F6 84 30 ? ? ? ? ? 74 0F  Add 3 Read32")]
         [OffsetCN("Search 42 0F B6 8C 28 ? ? ? ? 84 0E Add 5 Read32")]
         internal static int WallGroupEnabled;
-    }
+    }*/
 #pragma warning restore CS0649
 }
