@@ -65,7 +65,8 @@ namespace Deep.TaskManager.Actions
                 return false;
             }
 
-            if(Target.Unit == null)
+            //This can occur if another player loots, and possibly if we go too far but I've never seen us get out of range inside DD
+            if (Target.Unit == null || Target.Unit != null && !Target.Unit.IsValid)
             {
                 Poi.Clear("Target not found at location");
                 return true;
