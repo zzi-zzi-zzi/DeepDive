@@ -21,7 +21,6 @@ using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Interfaces;
 using ff14bot.Managers;
-using NeoGaia.ConnectionHandler;
 using Newtonsoft.Json;
 using ff14bot.Pathing.Service_Navigation;
 using ff14bot.Pathing;
