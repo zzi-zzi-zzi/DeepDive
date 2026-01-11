@@ -216,7 +216,7 @@ namespace Deep.Providers
                     return false;
 
                 var battleCharacter = (BattleCharacter) obj;
-                return !battleCharacter.IsDead;
+                return !battleCharacter.IsDead && battleCharacter.CanAttack;
             }
 
             return obj.Type == GameObjectType.EventObject || obj.Type == GameObjectType.Treasure || obj.Type == GameObjectType.BattleNpc;
